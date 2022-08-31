@@ -11,6 +11,9 @@ private double educationSpending;
 private final double  TAX_5000 = 20;
 private final double  TAX_3000 = 10;
 private final double  TAX_SERV = 15;
+private final double  TAX_CAP = 20;
+private final double  TAX_REBATE = 30;
+
 
 public TaxPayer() {
 }
@@ -66,23 +69,54 @@ public void setEducationSpending(double educationSpending) {
 
 public double salaryTax () {
 	
-	if (salaryIncone >= 5000) {
+	if ((salaryIncone/12) >= 5000) {
 		
-		return salaryIncone * ((100 + TAX_5000)/100);
+		return salaryIncone * (( TAX_5000)/100);
 	}
-	else if  (salaryIncone >= 3000) {
+	else if  ((salaryIncone/12) >= 3000) {
 		
-		return salaryIncone * ((100 + TAX_3000)/100);
+		return salaryIncone * (( TAX_3000)/100);
 	}
 	else {
-		return salaryIncone;
+		return 0.0;
 	}
 	
 }
 
 public double servicesTax () {
 	
-	return servicesIncone * (TAX_SERV+100)/100;
+	return servicesIncone * (TAX_SERV)/100;
+}
+
+public double capitalTax () {
+	
+	
+	return capitalIncome * (TAX_CAP)/100;
+}
+
+public double grossTax () {
+	
+	
+	return salaryTax () + servicesTax () + capitalTax ();
+}
+
+public double taxRebate () {
+	
+	double maxRebate = grossTax ()* (TAX_REBATE)/100 ;
+	double Rebate = healthSpending + educationSpending;
+	
+	if (Rebate > maxRebate){
+		
+		return maxRebate;
+	}
+	else {
+		return 	Rebate;
+	}
+}
+public double netTax () {
+	
+	
+	return grossTax () - taxRebate () ;
 }
 
 
